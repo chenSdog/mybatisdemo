@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.UserMapper">
+    <resultMap id="another" type="domain.UserAnother">
+        <id column="id" property="id"/>
+        <result column="name" property="userName"/>
+        <result column="age" property="age"/>
+        <result column="score" property="score"/>
+    </resultMap>
+
+    <resultMap id="collectionSql" type="domain.User">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="age" property="age"/>
+        <result column="score" property="score"/>
+        <collection property="addessList" ofType="domain.UserAddress">
+            <id column="address_id" property="id"/>
+            <result column="address" property="address"/>
+            <result column="remark" property="remark"/>
+        </collection>
+    </resultMap>
+    <resultMap id="judgeMap" type="domain.User">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="age" property="age"/>
+        <result column="score" property="score"/>
+        <discriminator javaType="int" column="type">
+            <case value="1" resultType="domain.BlackUser">
+                <result column="black" property="black"/>
+            </case>
+            <case value="2" resultType="domain.YellowUser">
+                <result column="city" property="city"/>
+            </case>
+        </discriminator>
+    </resultMap>
+
+    <sql id="common">${alias}.id,${alias}.name,${alias}.age</sql>
+    <select id="findCount" resultType="int" >
+        select count(*) from user;
+    </select>
+    <select id="findById" parameterType="long" resultType="domain.User" useCache="true">
+        select * from user where id = ${id};
+    </select>
+
+    <select id="findBySql" resultType="domain.User">
+        select
+        <include refid="common"><property name="alias" value="user"/></include>
+        from user
+    </select>
+
+    <insert id="save" parameterType="domain.User">
+        insert into user(id,name,age,score) values (#{id,javaType=long,jdbcType=NUMERIC},#{name},#{age},#{score,javaType=double,jdbcType=NUMERIC,numericScale=2})
+    </insert>
+    <update id="updateById" parameterType="hashmap">
+        update user set age =${age},name='${name}' where id =${id}
+    </update>
+
+    <select id="queryList" parameterType="list" resultType="domain.User">
+        select  * from user where id  in
+        <foreach collection="list" index="index" item="item" open="(" close=")" separator=",">
+            ${item}
+        </foreach>
+    </select>
+
+    <select id="queryResultMap" resultMap="another" >
+        select * from user
+    </select>
+    <select id="queryReturnMap" resultType="java.util.LinkedHashMap">
+        select id,name ,age from user
+    </select>
+
+    <select id="getById" resultType="domain.User">
+        select * from user where id =#{id}
+    </select>
+    <select id="getStepsMultParams" parameterType="hashmap" resultType="domain.User">
+        select * from user where id =#{id} and name=#{name}
+    </select>
+    
+    <select id="getUserIncludeAddress" parameterType="hashmap" resultMap="collectionSql">
+        select u.id,u.name,u.age,u.score,addr.id as address_id,addr.address,addr.remark,addr.user_id from user_address addr left join user u on u.id = addr.user_id where u.id = #{id}
+    </select>
+    <select id="getUserByType" resultMap="judgeMap">
+        select id,name,age,type,score,black,city from user where id = #{id}
+    </select>
+</mapper>

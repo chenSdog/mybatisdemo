@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.UserAddressMapper">
+    <resultMap id="userAddress" type="domain.UserAddress">
+        <id column="id" property="id"/>
+        <result column="address" property="address"/>
+        <result column="remark" property="remark"/>
+        <association property="user" column="user_id" javaType="domain.User">
+            <id  column="id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="age" property="age"/>
+            <result column="score" property="score"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="userAddressSteps" type="domain.UserAddress">
+        <id column="id" property="id"/>
+        <result column="address" property="address"/>
+        <result column="remark" property="remark"/>
+        <association property="user" column="user_id" select="mapper.UserMapper.getById">
+        </association>
+    </resultMap>
+
+    <!--传递多个参数{a=1,b=2}-->
+    <resultMap id="multParamsSql" type="domain.UserAddress">
+        <id column="id" property="id"/>
+        <result column="address" property="address"/>
+        <result column="remark" property="remark"/>
+        <association property="user" column="{id=id,name=address}" javaType="domain.User" select="mapper.UserMapper.getStepsMultParams"></association>
+    </resultMap>
+
+    <select id="getById" parameterType="hashmap" resultMap="userAddress">
+        select addr.id,addr.user_id,addr.address,addr.remark, u.id,u.name,u.age,u.score from  user_address addr left join user u on  u.id = addr.user_id where  addr.id=#{id}
+    </select>
+
+    <select id="getStepsById" parameterType="hashmap" resultMap="userAddressSteps">
+        select addr.id,addr.user_id,addr.address,addr.remark, u.id,u.name,u.age,u.score from  user_address addr left join user u on  u.id = addr.user_id where  addr.id=#{id}
+    </select>
+
+    <select id="getStepsByIdMult" parameterType="hashmap" resultMap="multParamsSql">
+        select addr.id,addr.user_id,addr.address,addr.remark, u.id,u.name,u.age,u.score from  user_address addr left join user u on  u.id = addr.user_id where  addr.id=#{id}
+    </select>
+</mapper>
