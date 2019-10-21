@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  * @modified By：
  * @version: 1.0
  */
-public class BlackUser extends User {
+public class BlackUser extends User implements Serializable {
     private String black;
 
     public BlackUser(){

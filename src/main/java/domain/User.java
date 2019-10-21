@@ -16,13 +16,19 @@ public class User implements Serializable {
     private String name;
     private Integer age;
     private Double score;
-    private int type;
+    private Integer type;
     private List<UserAddress> addessList;
 
     public User(){
 
     }
-
+    public User(Long id,String name,Integer age,Double score,Integer type){
+        this.id =id;
+        this.name = name;
+        this.age = age;
+        this.score = score;
+        this.type = type;
+    }
     public User(long id,String name,int age){
         this.id =id;
         this.name = name;
@@ -36,6 +42,8 @@ public class User implements Serializable {
         this.score = score;
     }
 
+
+
     public User(Long id, String name, Integer age, Double score, List<UserAddress> addessList) {
         this.id = id;
         this.name = name;
@@ -44,7 +52,7 @@ public class User implements Serializable {
         this.addessList = addessList;
     }
 
-    public User(Long id, String name, Integer age, Double score, int type, List<UserAddress> addessList) {
+    public User(Long id, String name, Integer age, Double score, Integer type, List<UserAddress> addessList) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -53,14 +61,7 @@ public class User implements Serializable {
         this.addessList = addessList;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                '}';
-    }
+
 
     public Long getId() {
         return id;
@@ -100,5 +101,17 @@ public class User implements Serializable {
 
     public void setAddessList(List<UserAddress> addessList) {
         this.addessList = addessList;
+    }
+
+    public void intit(){
+        this.age = 100;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

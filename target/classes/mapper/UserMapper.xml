@@ -58,7 +58,7 @@
         update user set age =${age},name='${name}' where id =${id}
     </update>
 
-    <select id="queryList" parameterType="list" resultType="domain.User">
+    <select id="queryList" parameterType="list" resultType="domain.User" databaseId="mysql">
         select  * from user where id  in
         <foreach collection="list" index="index" item="item" open="(" close=")" separator=",">
             ${item}

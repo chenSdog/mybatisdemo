@@ -6,6 +6,20 @@
     <properties resource="config.properties">
         <property name="user" value="ros"/>
     </properties>
+    <settings>
+        <setting name="cacheEnabled" value="true"/>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="autoMappingBehavior" value="PARTIAL"/>
+    </settings>
+    <typeHandlers>
+        <typeHandler handler="handler.TypeHanlderOfString" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    </typeHandlers>
+    <objectFactory type="objectfactory.UserFactory">
+        <property name="emaild" value="100"/>
+    </objectFactory>
+    <plugins>
+        <plugin interceptor="service.QueryInterceptor"></plugin>
+    </plugins>
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
@@ -17,6 +31,13 @@
             </dataSource>
         </environment>
     </environments>
+    <databaseIdProvider type="database.DataProvide">
+
+    </databaseIdProvider>
+   <!-- <databaseIdProvider type="DB_VENDOR">
+        <property name="MySQL" value="mysql"/>
+    </databaseIdProvider>-->
+
     <mappers>
         <mapper resource="mapper/UserMapper.xml"/>
         <mapper resource="mapper/UserAddressMapper.xml"/>

@@ -1,3 +1,4 @@
+/*
 package com;
 
 import domain.*;
@@ -17,6 +18,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+*/
 /**
  * @author ：chenchao06
  * @description： file name
@@ -24,7 +26,8 @@ import java.util.List;
  * @date ：Created in 2019/9/11 11:55
  * @modified By：
  * @version: 1.0
- */
+ *//*
+
 
 public class TestMybatis {
      static  SqlSession sqlSession = null;
@@ -37,6 +40,11 @@ public class TestMybatis {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void testNull(){
+        System.out.println("空方法测试");
     }
 
 
@@ -145,9 +153,11 @@ public class TestMybatis {
 
     }
 
-    /**
+    */
+/**
      * 直接查找collection
-     */
+     *//*
+
     @Test
     public void queryCollectionSingle(){
         try {
@@ -160,9 +170,11 @@ public class TestMybatis {
 
     }
 
-    /**
+    */
+/**
      * 使用鉴别器
-     */
+     *//*
+
     @Test
     public void queryJudege(){
         try {
@@ -176,6 +188,19 @@ public class TestMybatis {
         }catch (Exception e){
             e.printStackTrace();
         }
-
     }
+
+
+    @Test
+    public void testPluginQury(){
+        try {
+            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            User user = userMapper.getById(1L);
+            System.out.println(user);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 }
+*/
